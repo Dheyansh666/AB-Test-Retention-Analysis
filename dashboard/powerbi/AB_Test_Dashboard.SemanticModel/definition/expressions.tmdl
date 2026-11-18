@@ -1,0 +1,5 @@
+expression DataFolder = "C:\Users\DELL\Desktop\RESUME_PROJECTS_BUILDING\ab-test-retention-analysis\data\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 7e026e34-007d-5c8f-89c5-957690d1b7e0
+
+	annotation PBI_ResultType = Text
+

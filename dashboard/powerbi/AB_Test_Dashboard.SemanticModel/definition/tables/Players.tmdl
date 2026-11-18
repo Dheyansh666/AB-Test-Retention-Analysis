@@ -1,0 +1,83 @@
+table Players
+	lineageTag: 5601f553-3bca-5086-9288-c56b4aae01cc
+
+	measure Players = COUNTROWS(Players)
+		formatString: #,##0
+		lineageTag: 79127ca5-b078-5ace-bd48-f55c7e22f4b8
+
+	measure '1-Day Retention' = DIVIDE(CALCULATE(COUNTROWS(Players), Players[retention_1] = TRUE()), [Players])
+		formatString: 0.00%
+		lineageTag: eb136009-0af6-5b9e-99e7-19d8cf570117
+
+	measure '7-Day Retention' = DIVIDE(CALCULATE(COUNTROWS(Players), Players[retention_7] = TRUE()), [Players])
+		formatString: 0.00%
+		lineageTag: f4dbbc0a-69a2-5bca-8f96-b233350ddf11
+
+	measure 'Median Rounds' = MEDIAN(Players[sum_gamerounds])
+		formatString: #,##0
+		lineageTag: 91bd5a26-f90d-54ed-9351-106f0b0cb00b
+
+	column userid
+		dataType: int64
+		formatString: 0
+		lineageTag: a53f16d5-e851-5701-abf6-5ed87d4c0259
+		summarizeBy: none
+		sourceColumn: userid
+
+		annotation SummarizationSetBy = User
+
+	column version
+		dataType: string
+		lineageTag: 42ae3236-4af6-54d6-a445-115108c99245
+		summarizeBy: none
+		sourceColumn: version
+
+		annotation SummarizationSetBy = User
+
+	column sum_gamerounds
+		dataType: int64
+		formatString: 0
+		lineageTag: 821a0bfb-95ec-55de-8f81-52cf9b7817a3
+		summarizeBy: none
+		sourceColumn: sum_gamerounds
+
+		annotation SummarizationSetBy = User
+
+	column retention_1
+		dataType: boolean
+		lineageTag: d6080708-9245-5c17-9e1e-56fdaadd4041
+		summarizeBy: none
+		sourceColumn: retention_1
+
+		annotation SummarizationSetBy = User
+
+	column retention_7
+		dataType: boolean
+		lineageTag: bc62e1d4-ab6c-58c0-896d-7f80fb0c08ad
+		summarizeBy: none
+		sourceColumn: retention_7
+
+		annotation SummarizationSetBy = User
+
+	column 'Rounds Band'
+		dataType: string
+		lineageTag: 410a14cf-e1db-5fbe-8829-8e1b4cd1b182
+		summarizeBy: none
+		sourceColumn: Rounds Band
+
+		annotation SummarizationSetBy = User
+
+	partition Players = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "cookie_cats.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Selected = Table.SelectColumns(Promoted, {"userid", "version", "sum_gamerounds", "retention_1", "retention_7"}),
+				    Typed = Table.TransformColumnTypes(Selected, {{"userid", Int64.Type}, {"version", type text}, {"sum_gamerounds", Int64.Type}, {"retention_1", type logical}, {"retention_7", type logical}}, "en-US"),
+				    NoOutlier = Table.SelectRows(Typed, each [sum_gamerounds] < 40000),
+				    Added0 = Table.AddColumn(NoOutlier, "Rounds Band", each if [sum_gamerounds] = 0 then "1) 0" else if [sum_gamerounds] < 10 then "2) 1-9" else if [sum_gamerounds] < 30 then "3) 10-29" else if [sum_gamerounds] < 40 then "4) 30-39" else if [sum_gamerounds] < 100 then "5) 40-99" else "6) 100+", type text)
+				in
+				    Added0
+
+	annotation PBI_ResultType = Table

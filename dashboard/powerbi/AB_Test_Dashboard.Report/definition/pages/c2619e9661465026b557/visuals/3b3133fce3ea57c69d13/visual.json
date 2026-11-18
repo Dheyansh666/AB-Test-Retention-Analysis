@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.6.0/schema.json",
+  "name": "3b3133fce3ea57c69d13",
+  "position": {
+    "x": 20,
+    "y": 620,
+    "z": 11000,
+    "height": 95,
+    "width": 820,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Recommendation: keep the gate at level 30. Moving it to level 40 lowered 7-day retention from 19.02% to 18.20% (chi-square p = 0.0016; bootstrap 95% interval +1.6% to +7.5%). The 1-day difference is not significant (p = 0.075).",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "color": "#000000"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

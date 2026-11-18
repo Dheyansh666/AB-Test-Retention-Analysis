@@ -1,0 +1,217 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.6.0/schema.json",
+  "name": "3c87e3d3ffb853ea8a69",
+  "position": {
+    "x": 20,
+    "y": 460,
+    "z": 10000,
+    "height": 150,
+    "width": 820,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Results"
+                    }
+                  },
+                  "Property": "metric"
+                }
+              },
+              "queryRef": "Results.metric",
+              "nativeQueryRef": "metric"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Results"
+                    }
+                  },
+                  "Property": "gate_30_pct"
+                }
+              },
+              "queryRef": "Results.gate_30_pct",
+              "nativeQueryRef": "gate_30_pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Results"
+                    }
+                  },
+                  "Property": "gate_40_pct"
+                }
+              },
+              "queryRef": "Results.gate_40_pct",
+              "nativeQueryRef": "gate_40_pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Results"
+                    }
+                  },
+                  "Property": "diff_pp"
+                }
+              },
+              "queryRef": "Results.diff_pp",
+              "nativeQueryRef": "diff_pp"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Results"
+                    }
+                  },
+                  "Property": "chi2_p_value"
+                }
+              },
+              "queryRef": "Results.chi2_p_value",
+              "nativeQueryRef": "chi2_p_value"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Results"
+                    }
+                  },
+                  "Property": "boot_ci_low_pct"
+                }
+              },
+              "queryRef": "Results.boot_ci_low_pct",
+              "nativeQueryRef": "boot_ci_low_pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Results"
+                    }
+                  },
+                  "Property": "boot_ci_high_pct"
+                }
+              },
+              "queryRef": "Results.boot_ci_high_pct",
+              "nativeQueryRef": "boot_ci_high_pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Results"
+                    }
+                  },
+                  "Property": "prob_gate30_better_pct"
+                }
+              },
+              "queryRef": "Results.prob_gate30_better_pct",
+              "nativeQueryRef": "prob_gate30_better_pct"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Results"
+                    }
+                  },
+                  "Property": "significant"
+                }
+              },
+              "queryRef": "Results.significant",
+              "nativeQueryRef": "significant"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Statistical test results'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D9D9D9'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "6D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

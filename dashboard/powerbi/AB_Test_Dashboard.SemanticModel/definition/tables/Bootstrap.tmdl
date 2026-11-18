@@ -1,0 +1,66 @@
+table Bootstrap
+	lineageTag: deac0bcd-0a38-5d2b-a50d-dd8e8a4e142c
+
+	measure 'Bootstrap Samples' = COUNTROWS(Bootstrap)
+		formatString: #,##0
+		lineageTag: 052bc1f8-28ba-5182-a56a-01564aa48c24
+
+	column sample
+		dataType: int64
+		formatString: 0
+		lineageTag: 31cd36b4-3d2e-542c-a8d4-914b1d9129cf
+		summarizeBy: none
+		sourceColumn: sample
+
+		annotation SummarizationSetBy = User
+
+	column diff_1day_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: 0fb1ce6d-9e50-5bb6-bcb4-2cdfc8d2bbaf
+		summarizeBy: none
+		sourceColumn: diff_1day_pct
+
+		annotation SummarizationSetBy = User
+
+	column diff_7day_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: 7b32c64f-7c10-53e6-bf02-78850aa5694d
+		summarizeBy: none
+		sourceColumn: diff_7day_pct
+
+		annotation SummarizationSetBy = User
+
+	column '7-Day Diff (bin)'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 88a32de4-a577-5401-bc14-a5646147439b
+		summarizeBy: none
+		sourceColumn: 7-Day Diff (bin)
+
+		annotation SummarizationSetBy = User
+
+	column '1-Day Diff (bin)'
+		dataType: double
+		formatString: 0.0
+		lineageTag: 9c3c3c1b-81f7-59fd-80b1-f89a34a2defd
+		summarizeBy: none
+		sourceColumn: 1-Day Diff (bin)
+
+		annotation SummarizationSetBy = User
+
+	partition Bootstrap = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "bootstrap_samples.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Selected = Table.SelectColumns(Promoted, {"sample", "diff_1day_pct", "diff_7day_pct"}),
+				    Typed = Table.TransformColumnTypes(Selected, {{"sample", Int64.Type}, {"diff_1day_pct", type number}, {"diff_7day_pct", type number}}, "en-US"),
+				    Added0 = Table.AddColumn(Typed, "7-Day Diff (bin)", each Number.Round([diff_7day_pct] * 2, 0) / 2, type number),
+				    Added1 = Table.AddColumn(Added0, "1-Day Diff (bin)", each Number.Round([diff_1day_pct] * 2, 0) / 2, type number)
+				in
+				    Added1
+
+	annotation PBI_ResultType = Table

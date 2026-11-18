@@ -1,0 +1,19 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DataFolder", "Players", "Results", "Bootstrap"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Players
+ref table Results
+ref table Bootstrap
+
+ref cultureInfo en-US

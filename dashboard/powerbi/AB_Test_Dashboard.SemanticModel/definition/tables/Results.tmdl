@@ -1,0 +1,94 @@
+table Results
+	lineageTag: b4c0963a-9fa1-5fc1-8727-2156894c4a67
+
+	column metric
+		dataType: string
+		lineageTag: eb534276-0d9f-5a44-843b-ac5738527f25
+		summarizeBy: none
+		sourceColumn: metric
+
+		annotation SummarizationSetBy = User
+
+	column gate_30_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: 71130c55-1f82-5880-8d55-cdbea14ca379
+		summarizeBy: none
+		sourceColumn: gate_30_pct
+
+		annotation SummarizationSetBy = User
+
+	column gate_40_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: c6b3ec16-bc3f-50f6-8a5e-f54cb1715268
+		summarizeBy: none
+		sourceColumn: gate_40_pct
+
+		annotation SummarizationSetBy = User
+
+	column diff_pp
+		dataType: double
+		formatString: 0.00
+		lineageTag: 15621fa9-b0bd-504a-a4de-a0fc98c68f61
+		summarizeBy: none
+		sourceColumn: diff_pp
+
+		annotation SummarizationSetBy = User
+
+	column chi2_p_value
+		dataType: double
+		formatString: 0.0000
+		lineageTag: 0ec79b73-aba6-5bd8-a6de-3c7727408e81
+		summarizeBy: none
+		sourceColumn: chi2_p_value
+
+		annotation SummarizationSetBy = User
+
+	column boot_ci_low_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: 0ab886a2-b8e1-5c63-b49d-0031e1ac81be
+		summarizeBy: none
+		sourceColumn: boot_ci_low_pct
+
+		annotation SummarizationSetBy = User
+
+	column boot_ci_high_pct
+		dataType: double
+		formatString: 0.00
+		lineageTag: abfb4d3a-73b7-5bb6-97b2-bd4981dcdc34
+		summarizeBy: none
+		sourceColumn: boot_ci_high_pct
+
+		annotation SummarizationSetBy = User
+
+	column prob_gate30_better_pct
+		dataType: double
+		formatString: 0.0
+		lineageTag: 7de14d07-bcfe-5c0d-bd15-a449ecfd487d
+		summarizeBy: none
+		sourceColumn: prob_gate30_better_pct
+
+		annotation SummarizationSetBy = User
+
+	column significant
+		dataType: string
+		lineageTag: 41fb3f30-bd3a-5d9a-81c1-46593a229e21
+		summarizeBy: none
+		sourceColumn: significant
+
+		annotation SummarizationSetBy = User
+
+	partition Results = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "ab_results.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Selected = Table.SelectColumns(Promoted, {"metric", "gate_30_pct", "gate_40_pct", "diff_pp", "chi2_p_value", "boot_ci_low_pct", "boot_ci_high_pct", "prob_gate30_better_pct", "significant"}),
+				    Typed = Table.TransformColumnTypes(Selected, {{"metric", type text}, {"gate_30_pct", type number}, {"gate_40_pct", type number}, {"diff_pp", type number}, {"chi2_p_value", type number}, {"boot_ci_low_pct", type number}, {"boot_ci_high_pct", type number}, {"prob_gate30_better_pct", type number}, {"significant", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
